@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1>수정하기</h1>
+
+<form action="{% url 'posts:update' post.id %}">
+  <div class="form-group">
+    <label for="title">제목 : </label>
+    <input type="text" class="form-control" id="title" name="title" value="{{ post.title }}">
+    <textarea name="content" class="form-control" rows="10">{{ post.content }}</textarea>
+    <label for="title">이미지 url : </label>
+    <input type="text" name="image_url" value="{{ post.image_url }}">
+  </div>
+  <button type="submit" class="btn btn-primary">수정</button>
+</form>
+{% endblock %}

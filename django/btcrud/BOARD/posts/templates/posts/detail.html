@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block body %}
+<a href="/posts/update/{{post.id}}" class="btn btn-success">수정</a>
+<a href="/posts/delete/{{post.id}}" class="btn btn-danger">삭제</a>
+<h1>{{ post.title }}</h1>
+<pre>{{ post.content }}</pre>
+<p>{{ post.created_at }}</p>
+<p>{{ post.updated_at }}</p>
+{% endblock %}

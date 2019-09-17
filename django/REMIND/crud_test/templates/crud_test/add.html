@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div>
+  <form action="{% url 'crud_test:create' %}" method="GET">
+    <input name="data" type="text">
+    <button type="submit" class="btn btn-primary">submit</button>
+  </form>
+</div>
+
+{% endblock %}

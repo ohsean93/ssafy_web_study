@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container">
+  <h1>DTL 문법</h1>
+  <ul>
+    <li>for</li>
+    <li>if</li>
+    <li>helper / filter</li>
+    <li></li>
+  </ul>
+
+  <h2></h2>
+  {% for movie in movie %}
+  {% empty %}
+  <p>영화데이터가 없습니다.</p>
+  {% endfor %}
+
+  {% for movie in movie %}
+  <p>{{ forloop.counter }} : {{movie}}</p>
+  {% endfor %}
+
+  {%for num in lotto_num %}
+  {% if num > 40 %}
+  <p>{{num}}</p>
+  {% endif %}
+  {% endfor %}
+
+
+  <h3>helper</h3>
+  {% lorem 3 p %}
+  <hr>
+  {% lorem 3 p random %}
+
+  <h3>filter</h3>
+  <h4>str</h4>
+  {% for movie in movie %}
+  <p>{{movie|length}} {{movie|truncatechars:5}}</p>
+  {% endfor %}
+
+  <h4>int</h4>
+  {{ number|add:10 }}
+
+  <h4>datatime</h4>
+  {% now "y년 Y년 d일 D m월 M a h시 i분 e" %}
+
+  <h1>데이터를 넘겨 받는 법</h1>
+  <p>{{name}}</p>
+  <p>{{data}}</p>
+
+  {% for item in data %}
+  <p>{{item}}</p>
+  {%endfor%}
+
+</div>
+
+{% endblock %}

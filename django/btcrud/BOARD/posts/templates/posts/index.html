@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">title</th>
+      <th scope="col">create_at</th>
+      <th scope="col">update_at</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for post in posts %}
+    <tr>
+      <th scope="row">{{ post.pk }}</th>
+      <td><a href="{% url 'posts:detail' post.pk %}">{{ post.title }}</a></td>
+      <td>{{ post.create_at }}</td>
+      <td>{{ post.update_at }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

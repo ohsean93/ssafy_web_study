@@ -1,0 +1,26 @@
+{% extends 'todos/base.html' %}
+
+{% block body %}
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">title</th>
+        <th scope="col">date</th>
+        <th scope="col">update</th>
+        <th scope="col">del</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for todo in todos %}
+      <tr>
+        <th scope="row">{{ todo.id }}</th>
+        <td>{{ todo.title }}</td>
+        <td>{{ todo.due_date }}</td>
+        <td><a href="{% url 'todos:update' todo.id %}">수정</a></td>
+        <td><a href="{% url 'todos:delete' todo.id %}">삭제</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

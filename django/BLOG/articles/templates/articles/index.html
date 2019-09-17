@@ -1,0 +1,50 @@
+{% extends '_base.html' %}
+
+{% block body %}
+
+{% for title, content in blog_articles %}
+
+<div class="container">
+  <p>{{ forloop.counter }}</p>
+  <h4>제목 : {{ title }}</h4>
+  <pre>{{ content }}</pre>
+</div>
+
+{% endfor %}
+
+{% for blog in blog_dict_articles %}
+
+<div class="container">
+  <p>{{ forloop.counter }}</p>
+  <h4>제목 : {{ blog.title }}</h4>
+  <pre>{{ blog.content }}</pre>
+  <p>{{ bloge.created_at }}</p>
+</div>
+
+{% endfor %}
+
+
+{% for blog in blog_class_articles %}
+
+<div class="container">
+  <p>{{ forloop.counter }}</p>
+  <h4>제목 : {{ blog.title }}</h4>
+  <pre>{{ blog.content }}</pre>
+  <p>{{ bloge.created_at }}</p>
+</div>
+
+{% endfor %}
+
+{% for article in articles %}
+
+<div class="container">
+  <p>{{ forloop.counter }}</p>
+  <h4>제목 : {{ article.title }}</h4>
+  <pre>{{ article.content }}</pre>
+  <p>{{ article.created_at }}</p>
+  <p>이미지<img src="{{ article.img_url }}" alt="{{ article.title }}의 이미지"></p>
+</div>
+
+{% endfor %}
+
+{% endblock %}

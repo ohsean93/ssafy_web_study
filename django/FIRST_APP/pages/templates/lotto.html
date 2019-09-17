@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>lotto num</title>
+
+  <style>
+    .numbers {
+      width: 50px;
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      border-radius: 50%
+    }
+
+    .under_10 {
+      background-color: yellow;
+    }
+
+    .under_20 {
+      background-color: blue;
+    }
+
+    .under_30 {
+      background-color: red;
+    }
+
+    .under_40 {
+      background-color: black;
+    }
+
+    .under_50 {
+      background-color: green;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- {% for num in lotto_num %}
+  <p class="numbers">{{num}}</p>
+  {%endfor%} -->
+
+  <h1>DTL 조건문</h1>
+  {% for num in lotto_num %}
+
+
+  {% if num > 40 %}
+  <p class="numbers under_50">{{num}}</p>
+
+  {% elif num > 30 %}
+  <p class="numbers under_40">{{num}}</p>
+
+  {% elif num > 20 %}
+  <p class="numbers under_30">{{num}}</p>
+  
+  {% elif num > 10 %}
+  <p class="numbers under_20">{{num}}</p>
+
+  {% else %}
+  <p class="numbers under_10">{{num}}</p>
+  {% endif %}
+  
+  {%endfor%}
+
+  {%for movie in movie %}
+    <p>{{ forloop.counter }} : {{movie}}</p>
+  {% empty %}
+    <p>영화데이터가 없습니다.</p>
+  {%endfor%}
+</body>
+
+</html>

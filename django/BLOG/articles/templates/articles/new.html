@@ -1,0 +1,14 @@
+{% extends '_base.html' %}
+
+{% block body %}
+
+<form action="/articles/create/" method="GET">
+  <p>제목 : <input type="text" name="title"></p>
+  <p>이미지 : <input type="text" name="img_url"></p>
+  <p>내용</p>
+  <p><textarea name="content" cols="50" rows="20"></textarea></p>
+  
+  <button type="submit">글쓰기</button>
+</form>
+
+{% endblock %}

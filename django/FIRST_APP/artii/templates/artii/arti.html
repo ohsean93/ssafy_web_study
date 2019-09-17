@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<form action="/artii/artii_result/" method="POST">
+  {% csrf_token %}
+  바꿀 text : <input type="text" name="text">
+  <!-- <p>
+    <select name="type" style="width: 200px">
+      {% for font in fonts %}
+      <option value="{{ font }}">{{ font }}</option>
+      {% endfor %}
+    </select>
+  </p> -->
+  <button type="submit">제출</button>
+</form>
+{% endblock %}
