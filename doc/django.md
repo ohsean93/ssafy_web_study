@@ -8,9 +8,13 @@
 
 2017 v2.0
 
+읽는 방식이 매우 많지만 이 문서에서는 장고로 통일한다.
+
 
 
 ## 장고의 특징
+
+장고 개발자들이 뽑는 장고의 특징은 다음과 같다.
 
 Versatile - 다용도의
 
@@ -30,41 +34,43 @@ Portable -  포터블한
 
 ### 프레임 워크의 두 가지 분류
 
-Opinionated - 독선적인 : 프레임 워크의 규칙을 많이 만들어 사용 자유롭지는 않지만 배우기는 쉬움
+Opinionated - 독선적인 : 프레임 워크의 규칙을 많이 만들어 사용 자유롭지는 않지만 배우기는 쉽다.
 
-Unopinionated - 관용적 : 프레임 워크의 규칙이 거의 없음 자유로우나 배우기 힘듬
+Unopinionated - 관용적 : 프레임 워크의 규칙이 거의 없음 자유로우나 배우기 힘들다.
 
-
-
-장고는 다소 독선적임
+장고는 '다소 독선적'이다.
 
 
 
 ## 웹 서비스의 기본
 
-url로 요청 후 받음
+웹 서비스의 기본은 (사실 모든 서비스는) '요청' 후 '받음'으로 구분이 된다.
 
-하나의 url 하나의 함수
+이떄 웹에서는 요청을 주고 받을 때 사용하는 형식은 url이다. 즉 하나의 요청은 하나의 응답으로 처리된다.
 
-경량형 웹서비스는 이런 형식을 사용
 
-그래서 유사한 패턴을 묶는 것을 풀 스택 프레임 워크를 사용
+
+이런 서비스를 바닥부터 구현이 가능하지만, 대체로 규격이 잡힌 프레임 워크를 많이 사용한다.
+
+
+
+### 프레임 워크의 구분
+
+하나의 url 패턴은 하나의 함수로서 작용되는데
+
+경량형 프레임 워크는 이런 패턴들을 하나하나 정의를 해서 사용을 한다. 이런 방식은 프레임 워크의 로직이 간단하고, 기능이 많지 않은 가벼운 서비스에 어울린다.(그래서 경량형 프레임워크라고 한다.) 파이썬으로 가능한 경량형 프레임 워크는 플라스크가 있다.
+
+하지만 서비스가 많아지면 이를 유사한 기능 또는 분류끼리 묶는 작업을 하면 관리상, 그리고 개발상의 이점이 생긴다. 그래서 유사한 패턴을 묶는 프레임 워크, 풀 스택 프레임 워크를 사용하게 된다. 파이썬의 풀 스텍 프레임 워크 중 가장 유명한 것이 바로 장고이다.
 
 
 
 ## MVC / MTV
 
-
-
-### M
+일반적인 프레임 워크에서는 MVC가 표준으로 쓰이지만 장고는 이를 재해석한 MTV를 사용한다.
 
 Model - 데이터를 관리
 
-### T
-
 Template - 사용자가 보는 화면
-
-### V
 
 View - 중간 관리자
 
@@ -72,21 +78,25 @@ View - 중간 관리자
 
 ## 장고 명령어
 
-django-admin  startproject [프로젝트 명] : 프로벡트 실행
+`django-admin  startproject [프로젝트 명]` : 프로벡트 실행
 
-python manage.py runserver : 서버 실행
+`python manage.py runserver` : 서버 실행
 
-python manage.py startapp [app명] : app을 만든다. 기본적으로 1개 이상의 app이 필요하다.
+`python manage.py startapp [app명]` : app을 만든다. 기본적으로 1개 이상의 app이 필요하다.
+
+`python manage.py shell` : DB모드로 전환
+
+`python manage.py makemigrations` : DB의 청사진을 그리는 명령어로 models.py의 변경이 있으면 작동한다.
+
+`python manage.py migrate` : DB의 청사진을 적용하는 명령어
 
 
 
+## 장고의 (관례적인)구조
 
+PROJECT(대문자)
 
-
-
-## 장고의 구조
-
-project(대문자)
+프로젝트에 관련된 모든 것을 집어 넣는 root폴더
 
 - project(소문자)
 
@@ -105,6 +115,8 @@ project(대문자)
   - `wsgi.py`
 
 - manage.py :  주 실행 파일
+
+- media : 사진이나 동영상등 유저가 올린 데이터 중 텍스트 형식이 아니라 DB에 들어가기 어려운 파일들의 모음
 
 - app 1 게시판
 
@@ -366,13 +378,11 @@ render의 역활은 무엇일까?
 
 
 
-이는 `from django.http import HttpResponse`로 `HttpResponse`를 이용해 생성할수있다.(하지않는다)
-
-지금까지 
+이는 `from django.http import HttpResponse`로 `HttpResponse`함수를 이용해 직접 생성할수있다.(하지않는다)
 
 ------
 
-
+# 장고로 계시판을 만들기
 
 1. Models
 
@@ -380,3 +390,40 @@ render의 역활은 무엇일까?
    - urls
    - views
    - templates
+
+
+
+python Pillow
+
+
+
+view는 흘러가는 곳! 따라서 model에서 처리하는 model fat 하게 짜자!
+
+
+
+meta : 상위개념의 것
+
+사진에 대한 데이터(위치 시간 크기 확장자 등등) => meta에 저장
+
+model도 meta클레스 정의가 가능하다.
+
+```python
+	class Meta:
+        ordering = ['-pk']
+```
+
+
+
+`ImageField`
+
+`blank=True`옵션 필수
+
+form에 `multipart/form-data` 추가
+
+저장위치 넣기
+
+위치를 db에 넣기
+
+파비콘(favicon-generator)
+
+{% load static %}
