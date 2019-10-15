@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block main %}
+<h1>새글쓰기</h1>
+{% endblock %}
+
+{% block body %}
+<h2>Form 클레스를 통한 HTML Form 생성</h2>
+
+<form action="{% url 'articles:create' %}" method="post">
+{% csrf_token %}
+{% bootstrap_form form %}
+<button type="submit" class="btn btn-primary">글쓰기</button>
+</form>
+{% endblock %}

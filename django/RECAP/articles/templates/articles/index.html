@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block main %}
+<h1 id="title">articles</h1>
+{% endblock %}
+
+{% block body %}
+<a href="{% url 'articles:create' %}" method='get'>새글쓰기</a>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">title</th>
+      <th scope="col">created_at</th>
+      <th scope="col">updated_at</th>
+      <th scope="col">update</th>
+      <th scope="col">delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for article in articles %}
+    <tr>
+      <th scope="row">{{article.pk}}</th>
+      <td><a href="{{ article.get_absolute_url }}">{{article.title}}</a></td>
+      <td>{{article.created_at}}</td>
+      <td>{{article.updated_at}}</td>
+      <td><form action="{% url 'articles:update' article.pk %}" method="GET">
+        <button type="submit" class="btn btn-success">수정</button>
+      </form></td>
+      <td><form action="{% url 'articles:delete' article.pk %}" method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">삭제</button>
+      </form></td>
+    </tr>
+    {% endfor %}
+
+  </tbody>
+</table>
+<!-- all articles -->
+{% endblock %}
