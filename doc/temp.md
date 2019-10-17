@@ -1,6 +1,40 @@
 관계형 데이터 베이스
 
+model
+
+class meta
+
+get_absolute_url
+
+reverse('url', kwargs={'pramiter':data})
+
+
+
+shell_plus => setting에 django_extensions 추가
+
+
+
+
+
+
+
 ORM
+
+block
+
+url
+
+bootstrap4
+
+|연산자=> 시간 포멧팅
+
+for
+
+csrf_token
+
+
+
+
 
 SQL언어를 사용
 
@@ -45,4 +79,76 @@ SELECT * FROM posts_post;
 ```sqlite
 
 ```
+
+form => model form
+
+auth + m:n + validation         |=> Deploy  +  javascript
+
+cbv
+
+
+
+USE_I18N => 국제화
+
+USE_L10N => 지역화
+
+
+
+mtv순으로 프로젝트
+
+
+
+tdd => 테케를 이용해 
+
+
+
+레스트풀 => url패턴 만드는 것과 유사
+
+ https://meetup.toast.com/posts/92 
+
+drf 장고 레스트 프레임워크
+
+
+
+
+
+embed()함수는 실행 중 이 함수를 만나면 잠시 멈추고 ipython의 shell을 실행
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -409,7 +409,7 @@ model도 meta클레스 정의가 가능하다.
 
 ```python
 	class Meta:
-        ordering = ['-pk']
+        ordering = ['-pk',]
 ```
 
 

@@ -24,6 +24,7 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     article = models.ForeignKey(Article, on_delete='CASCADE')
+    # article = models.ForeignKey(Article, on_delete=models.CASCADE())
 
     def __str__(self):
         return self.content
@@ -33,4 +34,4 @@ class Comment(models.Model):
 
     #method도 추가 예정
     def get_absolute_url(self):
-        return reverse('articles:detail', kwargs={'article_pk': self.article})
+        return reverse('articles:update_comment', kwargs={'article_pk': self.article.pk, 'comment_pk': self.pk})

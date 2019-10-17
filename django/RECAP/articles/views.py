@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Article, Comment
-from .forms import ArticleForm, CommentForm
 from IPython import embed
 from django.http import Http404
 from django.views.decorators.http import require_http_methods, require_POST
+from .models import Article, Comment
+from .forms import ArticleForm, CommentForm
 
 
 # Create your views here.
@@ -37,7 +37,7 @@ def create(request):
         return render(request, 'articles/create.html', context)
         
 
-def detail(request, article_pk):
+def detail(request, article_pk, comment_pk=None):
     article = get_object_or_404(Article, pk=article_pk)
     comments = article.comment_set.all()
     commentform = CommentForm()
@@ -45,7 +45,21 @@ def detail(request, article_pk):
         'article': article,
         'comments': comments,
         'commentform': commentform,
+        'comment_pk': comment_pk
     }
+    if comment_pk:
+        comment = get_object_or_404(Comment, pk=comment_pk)
+        if request.method == 'POST':
+            form = CommentForm(request.POST, instance=comment)
+            if form.is_valid():
+                new_form = form.save(commit=False)
+                new_form.article = article
+                new_form.save()
+                return redirect(article)
+        else:
+            form = CommentForm(instance=comment)
+            context['form'] = form
+
     return render(request, 'articles/detail.html', context)
 
 
@@ -87,19 +101,15 @@ def delete(request, article_pk):
         return redirect(article)
 
 
+@require_POST
 def new_comment(request, article_pk):
     article = Article.objects.get(pk=article_pk)
     if request.method == 'POST':
-        content = request.POST.get('content')
         form = CommentForm(request.POST)
-        embed()
         if form.is_valid():
-            # article = form.cleaned_data.get('article')
-            # content = form.cleaned_data.get('content')
-            form.save()
-            # comment.article = Article.objects.get(pk=article_pk)
-            # comment.save()
+            new_form = form.save(commit=False)
+            new_form.article = Article.objects.get(pk=article_pk)
+            new_form.save()
             return redirect(article)
     else:
         return redirect(article)
-

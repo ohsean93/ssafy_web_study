@@ -20,23 +20,39 @@
   <!-- sort_date_format으로 간편 포멧팅 가능 -->
 </div>
 <a href="{% url 'articles:index' %}">목록보기</a>
-<div class="container"  style="width: 80%;">
+<div class="container" style="width: 80%;">
   {% for comment in comments %}
   <div class="row">
+    {% if comment.pk == comment_pk %}
+    <form action="{% url 'articles:update_comment' article.pk comment.pk %}" method="post">
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      <button type="submit" class="btn btn-primary">수정</button>
+      <p>test</p>
+    </form>
+    {% else %}
     <div class="col-1">{{ comment.pk }}</div>
-    <div class="col-7">{{ comment.content }}</div>
+    <div class="col-5">{{ comment.content }}</div>
     <div class="col-2">{{ comment.created_at | date:"y/m/d h:m" }}</div>
     <div class="col-2">{{ comment.updated_at | date:"y/m/d h:m" }}</div>
+    <form action="{% url 'articles:update_comment' article.pk comment.pk %}" method="GET">
+      <button type="submit" class="btn btn-success">수정</button>
+    </form>
+    <form action="{% url 'articles:update_comment' article.pk comment.pk %}" class="ml-3" method="POST">
+      <button type="submit" class="btn btn-danger">삭제</button>
+    </form>
+    
+    {% endif %}
   </div>
   {% endfor %}
   <div class="row">
     <form action="{% url 'articles:new_comment' article.pk %}" method="POST">
-      {{ commentform.as_table }}
+      {% bootstrap_form commentform %}
       {% csrf_token %}
       <button type="submit" class="btn btn-primary m-0 ml-3">생성</button>
     </form>
   </div>
-  
+
 
 </div>
 {% endblock %}

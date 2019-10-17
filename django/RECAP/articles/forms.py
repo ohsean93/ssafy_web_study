@@ -74,24 +74,26 @@ class ArticleForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = '__all__'
+        fields = ('content',)
     content = forms.CharField(
         label='댓글',
         widget=forms.TextInput(
             attrs={
-                'class': 'form-contral my-content col-7 ml-3',
+                'class': 'form-contral my-content col-6 ml-3',
                 'placeholder': '댓글을 입력해 주세요.',
                 'rows': 3,
             }
         ),
     )
-    article = forms.ModelChoiceField(
-        widget=forms.TextInput(
-            attrs={
-                'style': 'display:hidden',
-            }
-        ),
-    )
+    # article = forms.ModelChoiceField(
+    #     queryset = Article.objects.all(),
+    #     label='',
+        # widget=forms.ModelChoiceField(
+        #     attrs={
+        #         'style': 'display:none',
+        #     }
+        # ),
+    # )
 
     # def __init__(self, *args, **kwargs):
     #     super(ArticleForm, self).__init__(*args, **kwargs)
