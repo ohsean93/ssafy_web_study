@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from IPython import embed
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.views.decorators.http import require_http_methods, require_POST
 from .models import Article, Comment
 from .forms import ArticleForm, CommentForm
+from django.contrib.auth.decorators import login_required
+
 
 
 # Create your views here.
@@ -16,6 +18,8 @@ def index(request):
     return render(request, 'articles/index.html', context=context)
 
 
+# @login_required(login_url='accounts/login')
+@login_required
 def create(request):
     if request.method == 'POST':
         form = ArticleForm(request.POST)
@@ -63,6 +67,7 @@ def detail(request, article_pk, comment_pk=None):
     return render(request, 'articles/detail.html', context)
 
 
+@login_required
 def update(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
     if request.method == 'POST':
@@ -92,16 +97,21 @@ def update(request, article_pk):
 
 
 @require_POST
+@login_required
 def delete(request, article_pk):
-    article = get_object_or_404(Article, pk=article_pk)
-    if request.method == 'POST':
-        article.delete()
-        return redirect('articles:index')
+    if request.user.is_authenticated:
+        article = get_object_or_404(Article, pk=article_pk)
+        if request.method == 'POST':
+            article.delete()
+            return redirect('articles:index')
+        else:
+            return redirect(article)
     else:
-        return redirect(article)
+        return HttpResponse('검증되지 않은 유저정보입니다.', status=401)
 
 
 @require_POST
+@login_required
 def new_comment(request, article_pk):
     article = Article.objects.get(pk=article_pk)
     if request.method == 'POST':
@@ -113,3 +123,14 @@ def new_comment(request, article_pk):
             return redirect(article)
     else:
         return redirect(article)
+        
+
+@require_POST
+@login_required
+def delete_comment(request, article_pk, comment_pk):
+    article = Article.objects.get(pk=article_pk)
+    comment = Comment.objects.get(pk=comment_pk)
+    if request.method == 'POST':
+        if comment.article == article:
+            comment.delete()
+    return redirect(article)

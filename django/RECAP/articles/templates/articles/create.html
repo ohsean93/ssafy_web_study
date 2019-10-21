@@ -6,11 +6,15 @@
 {% endblock %}
 
 {% block body %}
+{% if user.is_authenticated %}
 <h2>Form 클레스를 통한 HTML Form 생성</h2>
 
 <form action="{% url 'articles:create' %}" method="post">
-{% csrf_token %}
-{% bootstrap_form form %}
-<button type="submit" class="btn btn-primary">글쓰기</button>
+  {% csrf_token %}
+  {% bootstrap_form form %}
+  <button type="submit" class="btn btn-primary">글쓰기</button>
 </form>
+{% else %}
+<p>로그인을 먼저 해 주세요</p>
+{% endif %}
 {% endblock %}

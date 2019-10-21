@@ -2,7 +2,7 @@
 {% load bootstrap4 %}
 
 {% block main %}
-<h1>새글쓰기</h1>
+<h1>상세보기</h1>
 {% endblock %}
 
 {% block body %}
@@ -27,7 +27,9 @@
     <form action="{% url 'articles:update_comment' article.pk comment.pk %}" method="post">
       {% csrf_token %}
       {% bootstrap_form form %}
+      {% if user.is_authenticated %}
       <button type="submit" class="btn btn-primary">수정</button>
+      {% endif %}
       <p>test</p>
     </form>
     {% else %}
@@ -35,16 +37,19 @@
     <div class="col-5">{{ comment.content }}</div>
     <div class="col-2">{{ comment.created_at | date:"y/m/d h:m" }}</div>
     <div class="col-2">{{ comment.updated_at | date:"y/m/d h:m" }}</div>
+    {% if user.is_authenticated %}
     <form action="{% url 'articles:update_comment' article.pk comment.pk %}" method="GET">
       <button type="submit" class="btn btn-success">수정</button>
     </form>
-    <form action="{% url 'articles:update_comment' article.pk comment.pk %}" class="ml-3" method="POST">
+    <form action="{% url 'articles:delete_comment' article.pk comment.pk %}" class="ml-3" method="POST">
       <button type="submit" class="btn btn-danger">삭제</button>
+      {% csrf_token %}
     </form>
-    
+    {% endif %}
     {% endif %}
   </div>
   {% endfor %}
+  {% if user.is_authenticated %}
   <div class="row">
     <form action="{% url 'articles:new_comment' article.pk %}" method="POST">
       {% bootstrap_form commentform %}
@@ -52,7 +57,7 @@
       <button type="submit" class="btn btn-primary m-0 ml-3">생성</button>
     </form>
   </div>
-
+  {% endif %}
 
 </div>
 {% endblock %}

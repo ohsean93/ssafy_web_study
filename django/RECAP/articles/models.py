@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib import auth
 
 # Create your models here.
 class Article(models.Model):
@@ -35,3 +36,5 @@ class Comment(models.Model):
     #method도 추가 예정
     def get_absolute_url(self):
         return reverse('articles:update_comment', kwargs={'article_pk': self.article.pk, 'comment_pk': self.pk})
+
+

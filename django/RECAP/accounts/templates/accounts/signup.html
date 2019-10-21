@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load bootstrap4 %}
+
+{% block main %}
+<h1>회원가입</h1>
+{% endblock %}
+{% block body %}
+<form method="POST">
+  {% csrf_token %}
+  {% bootstrap_form form %}
+  <!-- <button type="submit" class="btn btn-primary">가입하기</button> -->
+  {% buttons submit='회원가입' %}{% endbuttons %}
+</form>
+  
+{% endblock %}
