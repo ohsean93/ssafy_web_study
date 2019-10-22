@@ -21,6 +21,8 @@
   {% include '_nav.html' %}
   {% if user.is_authenticated %}
   <p>{{ user }}님 환영합니다.</p>
+  <p>당신의 방문횟수 : {{visits}} </p>
+  <a href="{% url 'accounts:update' %}">회원정보 수정</a>
   <a href="{% url 'accounts:logout' %}">로그아웃</a>
   <form action="{% url 'accounts:delete' %}" method="post">
     {% csrf_token %}

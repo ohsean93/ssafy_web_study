@@ -9,6 +9,7 @@
 <div class="form-group">
   <h3>Title</h3>
   <h4>{{article.title}}</h4>
+  <p>작성자 : {{ article.user }}</p>
 </div>
 <br>
 <div class="form-group">
@@ -19,6 +20,16 @@
   <p>수정일 {{ article.updated_at | date:"Y년 M d일"}}</p>
   <!-- sort_date_format으로 간편 포멧팅 가능 -->
 </div>
+{% if user in article.like_users.all %}
+<p><a href="{% url 'articles:dislike' article.pk %}">좋아요 취소</a></p>
+{% else %}
+<p><a href="{% url 'articles:like' article.pk %}">좋아요</a></p>
+{% endif %}
+<p>좋아요 : {{ article.like_users.count }}</p>
+<p>좋아하는 사람들</p>
+{% for u in article.like_users.all %}
+<p>{{ u }}</p>
+{% endfor %}
 <a href="{% url 'articles:index' %}">목록보기</a>
 <div class="container" style="width: 80%;">
   {% for comment in comments %}
@@ -27,17 +38,19 @@
     <form action="{% url 'articles:update_comment' article.pk comment.pk %}" method="post">
       {% csrf_token %}
       {% bootstrap_form form %}
-      {% if user.is_authenticated %}
+      {% if user == article.user %}
       <button type="submit" class="btn btn-primary">수정</button>
       {% endif %}
       <p>test</p>
     </form>
+    <!-- <p>조회수 : {{ visits }}</p> -->
+
     {% else %}
-    <div class="col-1">{{ comment.pk }}</div>
-    <div class="col-5">{{ comment.content }}</div>
+    <div class="col-1">{{ forloop.counter }}</div>
+    <div class="col-5">{{ comment.user }} - {{ comment.content }}</div>
     <div class="col-2">{{ comment.created_at | date:"y/m/d h:m" }}</div>
     <div class="col-2">{{ comment.updated_at | date:"y/m/d h:m" }}</div>
-    {% if user.is_authenticated %}
+    {% if user == comment.user %}
     <form action="{% url 'articles:update_comment' article.pk comment.pk %}" method="GET">
       <button type="submit" class="btn btn-success">수정</button>
     </form>
