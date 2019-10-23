@@ -168,12 +168,11 @@ def send_cookie(request):
 @login_required
 def like(request, article_pk):
     article = get_object_or_404(Article,pk=article_pk)
-    article.like_users.add(request.user)
-    return redirect(article)
+    user= request.user
 
+    if article.like_users.filter(pk=user.pk).exists():
+        article.like_users.remove(user)
 
-@login_required
-def dislike(request, article_pk):
-    article = get_object_or_404(Article,pk=article_pk)
-    article.like_users.remove(request.user)
+    else:
+        article.like_users.add(user)
     return redirect(article)

@@ -20,15 +20,16 @@
   <p>수정일 {{ article.updated_at | date:"Y년 M d일"}}</p>
   <!-- sort_date_format으로 간편 포멧팅 가능 -->
 </div>
-{% if user in article.like_users.all %}
-<p><a href="{% url 'articles:dislike' article.pk %}">좋아요 취소</a></p>
+{% with likers=article.like_users.all %}
+{% if user in likers %}
+<p><a href="{% url 'articles:like' article.pk %}">좋아요 취소</a></p>
 {% else %}
 <p><a href="{% url 'articles:like' article.pk %}">좋아요</a></p>
 {% endif %}
 <p>좋아요 : {{ article.like_users.count }}</p>
 <p>좋아하는 사람들</p>
-{% for u in article.like_users.all %}
-<p>{{ u }}</p>
+{% for liker in likers %}
+<p>{{ liker }}</p>
 {% endfor %}
 <a href="{% url 'articles:index' %}">목록보기</a>
 <div class="container" style="width: 80%;">
@@ -72,5 +73,6 @@
   </div>
   {% endif %}
 
+{% endwith %}
 </div>
 {% endblock %}
