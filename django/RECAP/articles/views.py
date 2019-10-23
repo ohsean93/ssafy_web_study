@@ -2,25 +2,58 @@ from django.shortcuts import render, redirect, get_object_or_404
 from IPython import embed
 from django.http import Http404, HttpResponse
 from django.views.decorators.http import require_http_methods, require_POST
-from .models import Article, Comment
-from .forms import ArticleForm, CommentForm
 from django.contrib.auth.decorators import login_required
+from .models import Article, Comment, Hashtag
+from .forms import ArticleForm, CommentForm
+from itertools import chain
 
 
 
 # Create your views here.
-
+@login_required
 def index(request):
     # embed()
     visits_num = request.session.get('visits', 0)
     request.session['visits'] = visits_num + 1
     request.session.modified = True
-    articles = Article.objects.all()
+    followings_and_me = chain(request.user.followings.all(), [request.user])
+    articles = Article.objects.filter(user__in=followings_and_me)
+
     context = {
         'articles': articles,
         'visits': visits_num,
     }
     return render(request, 'articles/index.html', context=context)
+
+
+
+def explore(request):
+    # embed()
+    articles = Article.objects.all()
+    context = {
+        'articles': articles,
+    }
+    return render(request, 'articles/explore.html', context=context)
+
+
+def tags(request):
+    # embed()
+    tags = Hashtag.objects.filter()
+    context = {
+        'tags': tags,
+    }
+    return render(request, 'articles/tags.html', context=context)
+
+
+def hashtag(request, hashtag_pk):
+    # embed()
+    hashtag = get_object_or_404(Hashtag, pk=hashtag_pk)
+    articles = hashtag.article_set.all()
+    context = {
+        'articles': articles,
+        'hashtag': hashtag,
+    }
+    return render(request, 'articles/hashtag.html', context=context)
 
 
 # @login_required(login_url='accounts/login')
@@ -37,6 +70,12 @@ def create(request):
             article = form.save(commit=False)
             article.user = request.user
             article.save()
+
+            for word in article.content.split():
+                if word.startswith('#'):
+                    hashtag, created = Hashtag.objects.get_or_create(content=word)
+                    article.hashtags.add(hashtag)
+
             return redirect(article)
         else:
             return redirect('articles:create')

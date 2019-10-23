@@ -20,17 +20,27 @@
   <p>수정일 {{ article.updated_at | date:"Y년 M d일"}}</p>
   <!-- sort_date_format으로 간편 포멧팅 가능 -->
 </div>
+<h2>해쉬테그</h2>
+{% with hashtags=article.hashtags.all %}
+  {% for hashtag in hashtags %}
+    <strong>{{ hashtag }}</strong>
+  {% endfor %}
+{% endwith %}
+
 {% with likers=article.like_users.all %}
 {% if user in likers %}
-<p><a href="{% url 'articles:like' article.pk %}">좋아요 취소</a></p>
+  <p><a href="{% url 'articles:like' article.pk %}">좋아요 취소</a></p>
 {% else %}
-<p><a href="{% url 'articles:like' article.pk %}">좋아요</a></p>
+  <p><a href="{% url 'articles:like' article.pk %}">좋아요</a></p>
 {% endif %}
-<p>좋아요 : {{ article.like_users.count }}</p>
-<p>좋아하는 사람들</p>
+
+  <p>좋아요 : {{ article.like_users.count }}</p>
+  <p>좋아하는 사람들</p>
+
 {% for liker in likers %}
-<p>{{ liker }}</p>
+  <p>{{ liker }}</p>
 {% endfor %}
+
 <a href="{% url 'articles:index' %}">목록보기</a>
 <div class="container" style="width: 80%;">
   {% for comment in comments %}

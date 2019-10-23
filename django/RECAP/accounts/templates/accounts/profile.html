@@ -3,30 +3,35 @@
 {% load bootstrap4 %}
 
 {% block main %}
-{% if request.resolver_match.url_name == 'signup' %}
-<h1>회원가입</h1>
-{% elif request.resolver_match.url_name == 'login' %}
-<h1>로그인</h1>
-{% elif request.resolver_match.url_name == 'update' %}
-<h1>회원정보 수정</h1>
-{% elif request.resolver_match.url_name == 'change_password' %}
-<h1>비밀번호 수정</h1>
-{% endif %}
-{% endblock %}
-{% block body %}
-<form method="POST">
-  {% csrf_token %}
-  {% bootstrap_form form %}
-  <!-- <button type="submit" class="btn btn-primary">가입하기</button> -->
-  {% if request.resolver_match.url_name == 'signup' %}
-  {% buttons submit='회원가입' %}{% endbuttons %}
-  {% elif request.resolver_match.url_name == 'login' %}
-  {% buttons submit='로그인' %}{% endbuttons %}
-  {% elif request.resolver_match.url_name == 'update' %}
-  {% buttons submit='회원정보 수정' %}{% endbuttons %}
-  {% elif request.resolver_match.url_name == 'change_password' %}
-  {% buttons submit='비밀번호 수정' %}{% endbuttons %}
+<h1>{{ person }}</h1>
+{% with followers=person.followers.all followings=person.followings.all %}
+  {% if user != person %}
+    {% if user in followers %}
+      <a class="btn btn-outline-primary" href="{% url 'accounts:follow' person.pk %}">언팔로우</a>
+    {% else %}
+      <a class="btn btn-primary" href="{% url 'accounts:follow' person.pk %}">팔로우</a>
+    {% endif %}
   {% endif %}
-</form>
+
+  <p>팔로워수 : {{ followers|length }}</p>
+
+  {% for follower in followers %}
+    <p>{{ follower }}</p>
+  {% endfor %}
+
+  <p>팔로잉수: {{ followings|length }}</p>
+  {% for following in followings %}
+    <p>{{ following }}</p>
+  {% endfor %}  
+{% endwith %}
+{% endblock %}
+<hr>
+{% block body %}
+<h2>{{ person }}가 쓴 글</h2>
+{% with articles=person.article_set.all %}
+  {% for article in articles %}
+    제목 : {{ article.title }} | 좋아요 : {{ article.like_users.count }} | 좋아요 : {{ article.comment_set.count }}
+  {% endfor %}
+{% endwith %}
   
 {% endblock %}

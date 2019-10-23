@@ -5,6 +5,7 @@ app_name = 'articles'
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('explore', views.explore, name='explore'),
     path('create/', views.create, name='create'),
     path('<int:article_pk>/', views.detail, name='detail'),
     path('<int:article_pk>/update/', views.update, name='update'),
@@ -14,4 +15,6 @@ urlpatterns = [
     path('<int:article_pk>/comment/<int:comment_pk>/delete', views.delete_comment, name='delete_comment'),
     path('send_cookie/', views.send_cookie, name='send'),
     path('<int:article_pk>/like/', views.like, name='like'),
+    path('tags/', views.tags, name='tags'),
+    path('hashtag/<int:hashtag_pk>', views.hashtag, name='hashtag'),
 ]

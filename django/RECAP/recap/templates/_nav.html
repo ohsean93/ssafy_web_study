@@ -6,9 +6,10 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-      <a class="nav-item nav-link active" href="#">main</a>
-      <a class="nav-item nav-link" href="{% url 'articles:index' %}">Article</a>
-      <a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+      <a class="nav-item nav-link active" href="{% url 'articles:explore' %}">main</a>
+      <a class="nav-item nav-link" href="{% url 'profile' user.username %}">my_page</a>
+      <a class="nav-item nav-link" href="{% url 'articles:index' %}">피드보기</a>
+      <a class="nav-item nav-link" href="{% url 'articles:create' %}">새글쓰기</a>
     </div>
   </div>
 </nav>
