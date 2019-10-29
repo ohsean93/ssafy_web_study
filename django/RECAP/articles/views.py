@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from IPython import embed
 from django.http import Http404, HttpResponse
 from django.views.decorators.http import require_http_methods, require_POST
 from django.contrib.auth.decorators import login_required
 from .models import Article, Comment, Hashtag
 from .forms import ArticleForm, CommentForm
 from itertools import chain
+from IPython import embed
 
 
 
@@ -207,7 +207,7 @@ def send_cookie(request):
 @login_required
 def like(request, article_pk):
     article = get_object_or_404(Article,pk=article_pk)
-    user= request.user
+    user = request.user
 
     if article.like_users.filter(pk=user.pk).exists():
         article.like_users.remove(user)

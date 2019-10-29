@@ -36,10 +36,10 @@ def login(request):
             return redirect(request.GET.get('next') or 'articles:index')
     else:
         form = AuthenticationForm()
-        context = {
-            'form': form,
-        }
-        return render(request, 'accounts/auth_form.html', context)
+    context = {
+        'form': form,
+    }
+    return render(request, 'accounts/auth_form.html', context)
 
 
 @login_required
