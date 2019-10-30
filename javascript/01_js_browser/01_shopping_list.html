@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <h1>My Shopping List</h1>
+  Enter a new item: <input id="item-input" type="text">
+  <button id="add-button">Add Item</button>
+  <ul id="shopping-list">
+
+  </ul>
+
+  <script>
+    const input = document.querySelector('#item-input')
+    const button = document.querySelector('#add-button')
+    const shoppingList = document.querySelector('#shopping-list')
+    
+    button.addEventListener('click', e => {
+      const itemName = input.value
+      const item = document.createElement('li')
+
+      item.innerText = itemName
+      input.value = ''
+
+      const deleteButton = document.createElement('button')
+      deleteButton.innerText = 'delete'
+      deleteButton.addEventListener('click', e => item.remove())
+
+      item.appendChild(deleteButton)
+      shoppingList.appendChild(item)
+    })
+  </script>
+</body>
+</html>

@@ -92,3 +92,22 @@ assign, declare 할당, 선언
 
 
 // eventlistener
+
+---
+
+non-blocking asynchronous
+
+파이선은 동기적 언어(synchronous)
+
+js는 비 동기적 언어
+
+
+
+
+
+
+
+
+
+
+

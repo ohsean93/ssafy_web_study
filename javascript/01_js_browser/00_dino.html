@@ -17,11 +17,11 @@
 
 <body>
   <div class="bg">
-    <img id="dino" width="100px" heigth="100px" style="display: flex;"
+    <img id="dino" width="100px" heigth="100px"
       src="https://is4-ssl.mzstatic.com/image/thumb/Purple118/v4/88/e5/36/88e536d4-8a08-7c3b-ad29-c4e5dabc9f45/AppIcon-1x_U007emarketing-sRGB-85-220-0-6.png/246x0w.jpg"
       alt="dino" />
   </div>
-  <p>dkr</p>
+  <!-- <p>dkr</p> -->
   <script>
     const dino = document.querySelector('#dino')
     dino.addEventListener('click', event => {
@@ -29,11 +29,30 @@
       console.log(event)
     })
 
+    let x = 0
+    let y = 0
+
     document.addEventListener('keydown', e => {
-      console.log(e)
-      console.log(e.key)
-      if (e.key === 'ArrowDown'){
-        dino
+      // console.log(e)
+      console.log(e.keyCode)
+      if (e.keyCode === 37){
+        console.log('좌로 이동')
+        x -= 40
+        dino.style.marginLeft = `${x}px`
+      } else if (e.keyCode === 38){
+        console.log('위로 이동')
+        y -= 40
+        dino.style.marginTop = `${y}px`
+      } else if (e.keyCode === 39){
+        console.log('좌로 이동')
+        x += 40
+        dino.style.marginLeft = `${x}px`
+      } else if (e.keyCode === 40){
+        console.log('아래로 이동')
+        y += 40
+        dino.style.marginTop = `${y}px`
+      } else{
+        alert('키 오류 방향키를 누르시오!')
       }
     })
 
