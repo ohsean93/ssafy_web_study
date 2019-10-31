@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from django.views.decorators.http import require_http_methods, require_POST
 from django.contrib.auth.decorators import login_required
 from .models import Article, Comment, Hashtag
@@ -10,18 +10,21 @@ from IPython import embed
 
 
 # Create your views here.
-@login_required
+# @login_required
 def index(request):
     # embed()
-    visits_num = request.session.get('visits', 0)
-    request.session['visits'] = visits_num + 1
-    request.session.modified = True
-    followings_and_me = chain(request.user.followings.all(), [request.user])
-    articles = Article.objects.filter(user__in=followings_and_me)
+    if request.user.is_authenticated:
+        # visits_num = request.session.get('visits', 0)
+        # request.session['visits'] = visits_num + 1
+        request.session.modified = True
+        followings_and_me = chain(request.user.followings.all(), [request.user])
+        articles = Article.objects.filter(user__in=followings_and_me)
+    else:
+        articles = Article.objects.all()
 
     context = {
         'articles': articles,
-        'visits': visits_num,
+        # 'visits': visits_num,
     }
     return render(request, 'articles/index.html', context=context)
 
@@ -211,7 +214,16 @@ def like(request, article_pk):
 
     if article.like_users.filter(pk=user.pk).exists():
         article.like_users.remove(user)
+        liked = False
 
     else:
         article.like_users.add(user)
-    return redirect(article)
+        liked = True
+    # return redirect(article)
+    context = {
+        'liked': liked,
+        'count': article.like_users.count(),
+        # 'users': article.like_users.all(),
+    }
+
+    return JsonResponse(context)

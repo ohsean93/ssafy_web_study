@@ -103,9 +103,13 @@ js는 비 동기적 언어
 
 
 
+처리방법
 
+callback
 
+promise
 
+async/await
 
 
 

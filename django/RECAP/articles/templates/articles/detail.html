@@ -28,13 +28,14 @@
 {% endwith %}
 
 {% with likers=article.like_users.all %}
-{% if user in likers %}
+<!-- {% if user in likers %}
   <p><a href="{% url 'articles:like' article.pk %}">좋아요 취소</a></p>
 {% else %}
   <p><a href="{% url 'articles:like' article.pk %}">좋아요</a></p>
-{% endif %}
+{% endif %} -->
 
-  <p>좋아요 : {{ article.like_users.count }}</p>
+  <p><button data-id="{{ article.pk }}" class="btn btn-primary" id="like-button">좋아요</button></p>
+  <p>좋아요 : <span id="like-count">{{ article.like_users.count }}</span></p>
   <p>좋아하는 사람들</p>
 
 {% for liker in likers %}
@@ -85,4 +86,28 @@
 
 {% endwith %}
 </div>
+<script>
+  const likeButten = document.querySelector('#like-button')
+  const likeCount = document.querySelector('#like-count')
+  
+  likeButten.addEventListener('click', function(e){
+    const articleId = e.target.dataset.id
+    // path('<int:article_pk>/like/', views.like, name='like'),
+    axios.get(`/articles/${articleId}/like/`)
+      .then(response => {
+        if (response.data.liked){
+          e.target.classList.add('btn-outline-primary')
+          e.target.classList.remove('btn-primary')
+          e.target.innerText = '좋아요 취소'
+
+        } else {
+          e.target.classList.remove('btn-outline-primary')
+          e.target.classList.add('btn-primary')
+          e.target.innerText = '좋아요'
+        }  
+        likeCount.innerText = response.data.count
+      })
+  })
+</script>
+
 {% endblock %}
