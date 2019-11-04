@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <h1>댓글달기</h1>
+  <input id="userInput" type="text">
+  <p id='inputArea'></p>
+
+  <h2>좋아요</h2>
+  <p>좋아요 갯수 : <span id='likeCountArea'></span></p>
+  <button id='likeButton'>좋아요</button>
+  <script>
+    const userInput = document.querySelector('#userInput')
+    const inputArea = document.querySelector('#inputArea')
+    const likeButton = document.querySelector('#likeButton')
+    const likeCountArea = document.querySelector('#likeCountArea')
+    let likeCount = 0
+    userInput.addEventListener('input',function (event) {
+      inputArea.innerHTML = event.target.value
+    })
+    likeButton.addEventListener('click', function (event) {
+      likeCount++
+      likeCountArea.innerText = likeCount
+    })
+  </script>
+
+</body>
+</html>

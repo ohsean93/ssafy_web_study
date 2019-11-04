@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="kr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <h1>댓글달기</h1>
+    <input type="text" v-model="msg">
+    <p>{{ msg }}</p>
+
+    <h2>좋아요</h2>
+    <p>좋아요 갯수 : {{ likeCount }}</p>
+    <button v-on:click="like">좋아요</button>
+  </div>
+
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        msg: '',
+        likeCount: 0,
+      },
+      methods:{
+        like: function() {
+          this.likeCount+=1
+        }
+      },
+    })
+  </script>
+</body>
+
+</html>
