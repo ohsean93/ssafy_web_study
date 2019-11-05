@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,7 +17,6 @@
   <div id="app">
     <h1>Vue ToDo</h1>
     <button @click="clearCompleted">완료목록 전체삭제</button>
-    <img :src="imgSrc">
     <input type="text" v-model="newTodo" @keydown.enter="addTodo">
     <button @click="addTodo">+</button>
     <select v-model="status">
@@ -26,70 +25,93 @@
       <option value="completed">완료</option>
     </select>
     <ul>
-      <li :class="{completed: todo.completed}" v-for="todo in todoByStatus()" @click="check(todo)" :key="todo.id">
+      <li :class="{completed: todo.completed}" v-for="todo in todoByStatus" @click="check(todo)" :key="todo.id">
         <input type="checkbox" v-model="todo.completed">
         {{ todo.content }}
         {{ todo.completed }}
       </li>
     </ul>
+    <p>{{ reversedNewTodo }}</p>
   </div>
+  <img :src="imgSrc">
 
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script>
-  // M (V VM)
+  const STORAGE_KEY = 'vue-todos'
+
+  const todoStorage = {
+    fetch() {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []
+    },
+    save(todos) {
+      return localStorage.setItem(STORAGE_KEY, JSON.stringify(todos))
+    }
+  }
   const app = new Vue({
     el: '#app',
     data: {
-      todos: [
-        { id: 1, content: '꽃 사서 배달시키기', completed: true },
-        { id: 2, content: 'IR 자료 만들기', completed: false },
-        { id: 3, content: '과목평가 문제 검토하기', completed: false },
-        { id: 4, content: '프로젝트 명세 검토하기', completed: false },
-      ], 
+      todos: todoStorage.fetch(),
+      // [
+      //   { id: 1, content: '꽃 사서 배달시키기', completed: true },
+      //   { id: 2, content: 'IR 자료 만들기', completed: false },
+      //   { id: 3, content: '과목평가 문제 검토하기', completed: false },
+      //   { id: 4, content: '프로젝트 명세 검토하기', completed: false },
+      // ], 
       imgSrc: 'https://joshua1988.github.io/images/posts/web/vuejs/logo.png',
       newTodo: '',
-      status: 'all', // all 다 보여주기, complete, active
+      status: 'all',
     },
     methods: {
-      // check: function() {}
       check(todo) {
         todo.completed = !todo.completed
       },
       addTodo() {
-        if (this.newTodo.lenght) {
+        if (this.newTodo.length != 0) {
           this.todos.push({
-            id: Date.now(),
-            content: this.newTodo,
-            completed: false,
+          id: Date.now(),
+          content: this.newTodo,
+          completed: false,
           })
           this.newTodo = ''
         }
-        
       },
       clearCompleted() {
-        // 뭐만 남기면 될까? completed가 false인 값만 남긴다.
         const notCompleted = this.todos.filter(function (todo) {
           return !todo.completed
         })
         this.todos = notCompleted
       },
+      
+    },
+    computed: {
+      reversedNewTodo() {
+        return this.newTodo.split('').reverse().join('')
+      },
       todoByStatus() {
-        // 진행 중인 일(active)
         if (this.status === 'active') {
           return this.todos.filter(function (todo) {
             return !todo.completed
           })
         }
-        // 완료된 일(completed)
+
         if (this.status === 'completed') {
           return this.todos.filter(function (todo) {
             return todo.completed
           })
         }
+
         return this.todos
-  
-      }
+      },
     },
+    
+    watch: {
+      todos: {
+        handler(todos) {
+          todoStorage.save(todos) 
+        },
+        deep: true,
+      }
+    }, 
   })
 
   </script>

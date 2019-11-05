@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div id="app">
+    <h1>ohsean's Todo</h1>
+    <todo-list category="취준"></todo-list>
+    <todo-list category="SSAFY"></todo-list>
+    <todo-list category="기타"></todo-list>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    Vue.component('todo-list', {
+      template: `
+        <div>
+          <h2>{{ category }}</h2>
+          <input type="text" v-model="newTodo">
+          <button @click="addTodo">+</button>
+          <li v-for="todo in todos">
+            <span>{{ todo.content }}</span>
+            <button @click="removeTodo(todo.id)">x</button>
+          </li>
+        </div>
+        `,
+      data: function () {
+        return {
+          todos: [],
+          newTodo: '',
+
+        }
+      },
+      // props: [],
+      // props: {
+      //   category: String,
+      //   category_id: Number,
+      // },
+      props: {
+        category: {
+          type: String,
+          required: true,
+          validator: function (value) {
+            if (value.length !== 0) {
+              return true
+            } else {
+              return false
+            }
+          }
+        },
+      },
+      methods: {
+        addTodo: function () {
+          this.todos.push({
+            id: new Date(),
+            content: this.newTodo,
+            completed: false,
+          })
+          this.newTodo = ''
+        },
+        // 이전에는 clearCompleted로 한번에 완료된 목록 삭제
+        // 이번에는 특정 todo를 삭제!
+        removeTodo: function (id_num) {
+          const tempTodo = this.todos.filter(function (todo) {
+            return todo.id !== id_num
+          })
+          this.todos = tempTodo
+        }
+      },
+    })
+  </script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+    })
+  </script>
+
+</body>
+
+</html>
