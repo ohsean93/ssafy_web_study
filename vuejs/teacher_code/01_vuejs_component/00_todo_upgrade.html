@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+
+</head>
+
+<body>
+  <div id="app">
+    <h1>John's Todo</h1>
+    <h2>취준</h2>
+    <input v-model="newTodo" type="text" @keyup.enter="addTodo">
+    <button @click="addTodo">+</button>
+    <li v-for="todo in todos" :key="todo.id">
+      <span>{{ todo.content }}</span>
+      <button @click="removeTodo(todo.id)">x</button>
+    </li>
+    <h2>탈SSAFY</h2>
+    <input v-model="newTodo" type="text" @keyup.enter="addTodo">
+    <button @click="addTodo">+</button>
+    <li v-for="todo in todos" :key="todo.id">
+      <span>{{ todo.content }}</span>
+      <button @click="removeTodo(todo.id)">x</button>
+    </li>
+    <h2>기타</h2>
+    <input v-model="newTodo" type="text" @keyup.enter="addTodo">
+    <button @click="addTodo">+</button>
+    <li v-for="todo in todos" :key="todo.id">
+      <span>{{ todo.content }}</span>
+      <button @click="removeTodo(todo.id)">x</button>
+    </li>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        todos1: [],
+        todos2: [],
+        todos3: [],
+        newTodo1: '',
+        newTodo2: '',
+        newTodo3: '',
+      },
+      methods: {
+        
+        addTodo1: function () {
+          if (this.newTodo.length != 0) {
+            this.todos1.push({
+              id: Date.now(),
+              content: this.newTodo1,
+              completed: false,
+            })
+          this.newTodo1 = ''
+          }
+        },
+        // 이전에는 clearCompleted로 한번에 완료된 목록 삭제
+        // 이번에는 특정 todo를 삭제!
+        removeTodo1: function (todoId) {
+          this.todos1 = this.todos1.filter((todo) =>{
+            return todo.id !== todoId
+          })
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

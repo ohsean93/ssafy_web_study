@@ -17,7 +17,7 @@ urlpatterns = [
     path('musics/', views.music_list, name='music_list'),
     path('musics/<int:music_pk>/', views.music_detail, name='music_detail'),
     path('artists/', views.artist_list, name='artist_list'),
-    # path('artists/<int:artist_pk>/', views.artist_detail, name='artist_detail'),
+    path('artists/<int:artist_pk>/', views.artist_detail, name='artist_detail'),
     # path('comments/', views.comment_list, name='comment_list'),
     path('musics/<int:music_pk>/comments/', views.comment_create, name='comment_create'),
 

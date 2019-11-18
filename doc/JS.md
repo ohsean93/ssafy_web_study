@@ -103,6 +103,20 @@ js는 비 동기적 언어
 
 
 
+
+
+----
+
+asynch  함수
+
+File R/W
+
+
+
+
+
+---
+
 처리방법
 
 callback
@@ -110,6 +124,30 @@ callback
 promise
 
 async/await
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
