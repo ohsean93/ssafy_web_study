@@ -89,7 +89,23 @@ git add .
 
 `git rm --cached -r .`: add한 것을 모두 삭제
 
+`git credential reject` : 이 명령어 이후
 
+`protocol=https` : 아래 두 명령어를 입력하면 지울 수 있다. 깃헙 한 번, 랩싸피 한 번 해야
+
+`host=github.com`  /  `host=lab.ssafy.com` 
+
+git config --unset --global user.name
+
+git config --unset --global user.email
+
+이름하고 메일을 지우는 것
+
+`git config --list` : 현재 설정된 이름과 메일 주소를 확인할 수 있다.
+
+`git config --global user.name '원하는 이름'` : user.name을 변경할 수 있다.
+
+`git config --global user.email '메일주소'` : user.email을 변경할 수 있다.
 
 
 

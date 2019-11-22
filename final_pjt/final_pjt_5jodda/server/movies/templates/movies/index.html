@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block body %}
+<h1 class="text-center my-5">INDEX</h1>  
+  <div class="row justify-content-center">  
+    {% for movie in movies %}
+      <div class="card border-dark m-3" style="width: 18rem;">
+        <a href="{% url 'movies:detail' movie.pk %}"><img src="{{ movie.poster_url }}" class="card-img-top"></a>
+        <div class="card-body text-center border-dark">
+          <h5 class="card-title">{{ movie.title }}</h5>
+            {% for genre in movie.genres.all %}
+              <span class="btn-sm btn-dark">{{ genre }}</span>
+            {% endfor %}
+          </h6>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

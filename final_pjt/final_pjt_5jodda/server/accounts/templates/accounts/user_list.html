@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block body %}
+  <h1 class="text-center my-5">사용자 목록</h1>
+  {% for user in users %}
+    <p>{{ user.pk }} | <a href="{% url 'accounts:profile' user.pk %}">{{ user.username }}</a></p>
+  {% endfor %}
+{% endblock %}

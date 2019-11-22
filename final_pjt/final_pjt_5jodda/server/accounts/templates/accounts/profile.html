@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block body %}
+  {% with followers=person.followers.all followings=person.followings.all %}
+    {% if user != person %}
+      {% if user in followers %}
+        <a href="{% url 'accounts:follow' person.pk %}" class="btn btn-outline-primary d-block">Unfollow</a>
+      {% else %}
+        <a href="{% url 'accounts:follow' person.pk %}" class="btn btn-primary d-block">Follow</a>
+      {% endif %}
+    {% endif %}
+    <h1 class="text-center mt-3 mb-5">{{ person }}</h1>
+    <h2>팔로워</h2>
+    <p>팔로워 수: {{ followers|length }}</p>
+  
+    <h2 class="mt-5">팔로잉</h2>
+    <p>팔로잉 수: {{ followings|length }}</p>
+  {% endwith %}
+
+  <h2 class="mt-5">좋아요 목록</h2>
+  {% for movie in person.like_movies.all %}
+    <p><a href="{% url 'movies:detail' movie.pk %}">{{ movie.title }}</a></p>
+  {% endfor %}
+
+  <h2 class="mt-5">리뷰 목록</h2>
+  {% for review in person.review_set.all %}
+    <p><a href="{% url 'movies:detail' review.movie.pk %}">{{ review.movie.title }}</a> | {{ review.score }} | {{ review.content }}</p>
+  {% endfor %}
+{% endblock %}

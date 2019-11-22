@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block body %}
+  <h1 class="text-center font-weight-bold">{{ movie.title }}</h1>
+  <div class="text-center">
+    {% for genre in movie.genres.all %}
+      <span class="btn btn-dark">{{ genre }}</span>
+    {% endfor %}
+  </div>
+  <div class="mt-3 text-center">
+    <img src="{{ movie.poster_url }}" style="height: 500px;">
+    
+  </div>
+  <br>
+  <br>
+  <label>누적관객수</label>
+  <p class="form-control">{{ movie.audience }}</p>
+  <label>줄거리</label>
+  <div>
+    <span>{{ movie.description }}</span>
+  </div>
+  <br>
+  <form action="{% url 'movies:review_new' movie.pk %}" method="POST">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <button type="submit" class="btn btn-success">등록하기</button>
+  </form>
+  <br>
+  {% for review in reviews %}
+    <p>평점: {{ review.score }}&#9;|&#9;{{ review.content }}&#9;<a href="{% url 'movies:review_delete' movie.pk review.pk %}" class="btn-sm btn-danger">삭제</a></p>
+  {% endfor %}
+
+  {% if request.user in movie.like_users.all %}
+    <a href="{% url 'movies:like' movie.pk %}" class="btn-sm btn-outline-danger mt-5 d-block text-center">좋아요 취소</a>
+  {% else %}
+    <a href="{% url 'movies:like' movie.pk %}" class="btn-sm btn-danger mt-5 d-block text-center">좋아요</a>
+  {% endif %}
+  
+  <a href="{% url 'movies:index' %}" class="btn btn-dark d-block">목록으로</a>
+{% endblock %}

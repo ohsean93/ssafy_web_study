@@ -88,3 +88,55 @@ completed의 계산 시점
 
 localstorage의 수명
 
+----
+
+## SPA
+
+### 단점
+
+1. history 관리의 불편
+2. SEO에 취약
+
+### 해결법
+
+1. hash bang 사용해 내부이동을 인지한다.(이건 저장됨)
+2. js 의 라우팅을 사용하자(그중 하나가 vuerouter)
+
+
+
+## vuerouter
+
+설치는 `vue ui`에서 설치가 가능하다.(또는 vue install router와 vue add router를 사용해도 된다.)
+
+
+
+## JWT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
